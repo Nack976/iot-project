@@ -32,7 +32,7 @@ cat << "EOF"
 EOF
 echo -e "${NC}"
 echo -e "${CYAN}==================================================${NC}"
-echo -e "${GREEN}    Script de Déploiement Automatisé - V2.0${NC}"
+echo -e "${GREEN}    Script de Déploiement Automatisé - V3.0${NC}"
 echo -e "${CYAN}==================================================${NC}\n"
 
 # --- 1. PROMPTS INTERACTIFS STYLISÉS ---
@@ -51,13 +51,9 @@ read -p "$(echo -e ${CYAN}▶ Clé secrète HMAC (ESP32)  ${NC}[Projet_IoT_2026]
 SECRET_KEY=${SECRET_KEY:-Projet_IoT_2026}
 echo ""
 
-# 1. Détecte le vrai utilisateur, MÊME si le script est lancé avec 'sudo'
+# Gestion adaptative de l'utilisateur (même si lancé avec sudo)
 LINUX_USER=${SUDO_USER:-$USER}
-
-# 2. S'adapte au dossier actuel (là où tu as fait ton git clone)
 PROJECT_DIR=$(pwd)
-
-# 3. Donne la propriété de ce dossier au vrai utilisateur (crucial pour /opt)
 sudo chown -R $LINUX_USER:$LINUX_USER $PROJECT_DIR
 
 echo -e "${GREEN}🚀 DÉMARRAGE DE L'INSTALLATION...${NC}\n"
@@ -116,7 +112,7 @@ EOF
 
 sudo docker compose up -d
 
-echo -e "${YELLOW}      🗄️ Création de la table avec support Télémétrie (IP/MAC)...${NC}"
+echo -e "${YELLOW}      🗄️ Création de la table avec support Télémétrie Complète...${NC}"
 sleep 5
 sudo docker exec -i postgres_db psql -U $DB_USER -d $DB_NAME -c "
 CREATE TABLE IF NOT EXISTS mesures (
@@ -124,7 +120,8 @@ CREATE TABLE IF NOT EXISTS mesures (
     capteur VARCHAR(50),
     valeur FLOAT,
     ip VARCHAR(15),
-    mac VARCHAR(17)
+    mac VARCHAR(17),
+    modele VARCHAR(50)
 );"
 
 # --- 5. L'API PYTHON ---
@@ -169,13 +166,14 @@ def receive_data():
         valeur = data.get('valeur')
         ip_address = data.get('ip', '0.0.0.0')
         mac_address = data.get('mac', 'INCONNU')
+        modele_carte = data.get('modele', 'Inconnu')
 
         if capteur and valeur is not None:
             conn = psycopg2.connect(**DB_CONFIG)
             cur = conn.cursor()
             cur.execute(
-                "INSERT INTO mesures (capteur, valeur, ip, mac) VALUES (%s, %s, %s, %s)",
-                (capteur, valeur, ip_address, mac_address)
+                "INSERT INTO mesures (capteur, valeur, ip, mac, modele) VALUES (%s, %s, %s, %s, %s)",
+                (capteur, valeur, ip_address, mac_address, modele_carte)
             )
             conn.commit()
             cur.close()
@@ -233,5 +231,5 @@ echo -e "${YELLOW}📈 Interface Grafana :${NC}"
 echo -e "   - URL d'accès  : ${GREEN}http://$SERVER_IP:3000${NC}"
 echo -e "   - Login / Mdp  : admin / admin"
 echo -e "${CYAN}==================================================${NC}"
-echo -e "Pour plus d'informations, consultez le fichier README.md"
+echo -e "Pour plus d'informations, consultez le fichier ${GREEN}README.md${NC} dans le répertoire du projet."
 echo -e "${CYAN}==================================================${NC}\n"
