@@ -37,17 +37,21 @@ echo -e "${CYAN}==================================================${NC}\n"
 
 # --- 1. PROMPTS INTERACTIFS STYLISÉS ---
 echo -e "${YELLOW}⚙️  CONFIGURATION DE LA BASE DE DONNÉES${NC}"
-read -p "$(echo -e ${CYAN}▶ Nom de la base PostgreSQL ${NC}[ma_base_iot] : )" DB_NAME
+echo -n -e "${CYAN}▶ Nom de la base PostgreSQL ${NC}[ma_base_iot] : "
+read DB_NAME
 DB_NAME=${DB_NAME:-ma_base_iot}
 
-read -p "$(echo -e ${CYAN}▶ Nom de l'utilisateur DB   ${NC}[user_iot] : )" DB_USER
+echo -n -e "${CYAN}▶ Nom de l'utilisateur DB   ${NC}[user_iot] : "
+read DB_USER
 DB_USER=${DB_USER:-user_iot}
 
-read -s -p "$(echo -e ${CYAN}▶ Mot de passe DB           ${NC}: )" DB_PASS
+echo -n -e "${CYAN}▶ Mot de passe DB           ${NC}: "
+read -s DB_PASS
 echo -e "\n"
 
 echo -e "${YELLOW}🔐 CONFIGURATION DE LA SÉCURITÉ${NC}"
-read -p "$(echo -e ${CYAN}▶ Clé secrète HMAC (ESP32)  ${NC}[Projet_IoT_2026] : )" SECRET_KEY
+echo -n -e "${CYAN}▶ Clé secrète HMAC (ESP32)  ${NC}[Projet_IoT_2026] : "
+read SECRET_KEY
 SECRET_KEY=${SECRET_KEY:-Projet_IoT_2026}
 echo ""
 
