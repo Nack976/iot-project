@@ -31,3 +31,39 @@ sudo chmod +x install_iot.sh
 
 # 5. Lancer l'installation
 sudo ./install_iot.sh
+
+## Commandes SQL pour créer les dashboards
+
+** Pression atmosphérique **
+
+SELECT
+  time AS "time",
+  valeur AS "Pression (hPa)"
+FROM mesures
+WHERE
+  capteur = 'pression' 
+  AND $__timeFilter(time)
+ORDER BY time ASC;
+
+** Température **
+
+SELECT
+  time AS "time",
+  valeur AS "Température (°C)"
+FROM mesures
+WHERE
+  capteur = 'temperature' 
+  AND $__timeFilter(time)
+ORDER BY time ASC;
+
+** Informations sur la station météo **
+
+SELECT 
+  mac AS "Adresse MAC (Identifiant unique)",
+  modele AS "Modèle de Nœud",
+  ip AS "Adresse IP Locale",
+  MAX(time) AS "Dernière communication"
+FROM mesures
+WHERE mac != 'INCONNU'
+GROUP BY mac, modele, ip
+ORDER BY "Dernière communication" DESC;
