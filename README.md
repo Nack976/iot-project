@@ -56,6 +56,17 @@ WHERE
   AND $__timeFilter(time)
 ORDER BY time ASC;
 
+** Humidité **
+
+SELECT
+  time AS "time",
+  valeur AS "Humidité (%)"
+FROM mesures
+WHERE
+  capteur = 'humidite' 
+  AND $__timeFilter(time)
+ORDER BY time ASC;
+
 ** Informations sur la station météo **
 
 SELECT 
