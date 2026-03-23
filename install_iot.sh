@@ -190,7 +190,7 @@ def receive_data():
         return jsonify({"erreur": "Erreur interne"}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='127.0.0.1', port=5000)
 EOF
 
 sed -i "s/REPLACE_ME_SECRET/$SECRET_KEY/g" api_serveur.py
