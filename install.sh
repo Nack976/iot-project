@@ -44,7 +44,7 @@ cat << "EOF"
 EOF
 echo -e "${NC}"
 echo -e "${CYAN}==================================================${NC}"
-echo -e "${GREEN}    Script de Déploiement Automatisé - V3.0${NC}"
+echo -e "${GREEN}    Script de Déploiement Automatisé${NC}"
 echo -e "${CYAN}==================================================${NC}\n"
 
 # ============================================================
