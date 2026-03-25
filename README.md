@@ -27,54 +27,42 @@ sudo git clone https://github.com/Nack976/iot-project.git
 cd iot-project
 
 # 4. Donner les droits d'exécution au script
-sudo chmod +x install_iot.sh
+sudo chmod +x install.sh
 
 # 5. Lancer l'installation
-sudo ./install_iot.sh
+sudo ./install.sh
 
 ## Commandes SQL pour créer les dashboards
 
 ** Pression atmosphérique **
 
 SELECT
-  time AS "time",
+  ts AS "time",
   valeur AS "Pression (hPa)"
-FROM mesures
-WHERE
-  capteur = 'pression' 
-  AND $__timeFilter(time)
-ORDER BY time ASC;
+FROM mesure_pression
+ORDER BY ts ASC;
 
 ** Température **
 
 SELECT
-  time AS "time",
+  ts AS "time",
   valeur AS "Température (°C)"
-FROM mesures
-WHERE
-  capteur = 'temperature' 
-  AND $__timeFilter(time)
-ORDER BY time ASC;
+FROM mesure_temperature
+ORDER BY ts ASC;
 
 ** Humidité **
 
 SELECT
-  time AS "time",
+  ts AS "time",
   valeur AS "Humidité (%)"
-FROM mesures
-WHERE
-  capteur = 'humidite' 
-  AND $__timeFilter(time)
-ORDER BY time ASC;
+FROM mesure_humidite
+ORDER BY ts ASC;
 
 ** Informations sur la station météo **
 
-SELECT 
-  mac AS "Adresse MAC (Identifiant unique)",
-  modele AS "Modèle de Nœud",
-  ip AS "Adresse IP Locale",
-  MAX(time) AS "Dernière communication"
-FROM mesures
-WHERE mac != 'INCONNU'
-GROUP BY mac, modele, ip
-ORDER BY "Dernière communication" DESC;
+SELECT
+  mac,
+  ip,
+  derniere_vue
+FROM esp_devices
+ORDER BY derniere_vue DESC;
