@@ -20,12 +20,32 @@ info() { echo -e "${CYAN}[INFO]${NC} $1"; }
 warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
 err()  { echo -e "${RED}[ERREUR]${NC} $1"; exit 1; }
 
-echo -e "${BOLD}"
-echo "  ╔══════════════════════════════════════════╗"
-echo "  ║     Station Météo IoT — Installation     ║"
-echo "  ║   PostgreSQL · Flask API · Grafana        ║"
-echo "  ╚══════════════════════════════════════════╝"
+# --- BANNIÈRE ASCII ---
+echo -e "${PURPLE}"
+cat << "EOF"
+  ___           _        _ _       _   _             
+ |_ _|_ __ ___| |_ __ _| | | __ _| |_(_) ___  _ __  
+  | || '_ \/ __| __/ _` | | |/ _` | __| |/ _ \| '_ \ 
+  | || | | \__ \ || (_| | | | (_| | |_| | (_) | | | |
+ |___|_| |_|___/\__\__,_|_|_|\__,_|\__|_|\___/|_| |_|
+                                                     
+  ____           _                                   
+ |  _ \ ___  ___| |_ __ _ _ __ ___  ___              
+ | |_) / _ \/ __| __/ _` | '__/ _ \/ __|             
+ |  __/ (_) \__ \ || (_| | | |  __/\__ \             
+ |_|   \___/|___/\__\__, |_|  \___||___/             
+                 |___/                               
+   ____            __                                
+  / ___|_ __ __ _ / _| __ _ _ __   __ _              
+ | |  _| '__/ _` | |_ / _` | '_ \ / _` |             
+ | |_| | | | (_| |  _| (_| | | | | (_| |             
+  \____|_|  \__,_|_|  \__,_|_| |_|\__,_|             
+                                                     
+EOF
 echo -e "${NC}"
+echo -e "${CYAN}==================================================${NC}"
+echo -e "${GREEN}    Script de Déploiement Automatisé - V3.0${NC}"
+echo -e "${CYAN}==================================================${NC}\n"
 
 # ============================================================
 # 1. COLLECTE DES PARAMÈTRES
@@ -373,7 +393,7 @@ echo "  ╚═══════════════════════
 echo -e "${NC}"
 echo -e "  Grafana     → ${CYAN}http://${VM_IP}:3000${NC}  (admin / votre mot de passe)"
 echo -e "  API Flask   → ${CYAN}https://${VM_IP}/api/data${NC}"
-echo -e "  PostgreSQL  → ${CYAN}${VM_IP}:5432${NC}  (meteo_user)"
+echo -e "  PostgreSQL  → ${CYAN}${VM_IP}:5432${NC}  (db: meteo / user: meteo_user)"
 echo ""
 echo -e "  ${YELLOW}N'oubliez pas de copier le certificat TLS affiché${NC}"
 echo -e "  ${YELLOW}ci-dessus dans le code Arduino de votre ESP32.${NC}"
